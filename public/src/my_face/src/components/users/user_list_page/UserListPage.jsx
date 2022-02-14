@@ -1,58 +1,86 @@
 import React, { useEffect, useState } from "react";
+import {useParams} from 'react-router-dom';
 import { UserList } from "../user_list/UserList.jsx";
+import { getUsers } from "../../../clients/myFaceClients";
+import { Link, useSearchParams } from "react-router-dom";
 
 export function UserListPage() {
 
-    const [userList, setUserList] = useState();
+    const [userList, setPostList] = useState();
 
+    const [next, setNext] = useState();
+    const [previous, setPrevious] = useState();
+
+    const [searchParams] = useSearchParams();
+    const pageNumber = searchParams.get("page");
+    const pageSize = searchParams.get("pageSize");
+
+    // useEffect(
+    //     function() {
+    //         const url="http://localhost:3001/users?page="+pageNum; 
+    //         //const url="http://localhost:3001/users?page="+"2"; 
+    //         fetch(url)
+    //             .then(response => response.json())
+    //             .then(userListJson => setUserList(userListJson.results));
+    //     },
+    //     []
+    // );
     useEffect(
         function() {
-            fetch(`http://localhost:3001/users`)
-                .then(response => response.json())
-                .then(userListJson => setUserList(userListJson.results));
+            getUsers(pageNumber, pageSize)
+                .then(postsPage => {
+                    setPostList(postsPage.results);
+                    setNext(postsPage.next);
+                    setPrevious(postsPage.previous);
+                });
         },
-        []
+        [pageNumber, pageSize]
     );
 
-    // const postList = [
-    //     {"id": 130,
-    // "message": "Operative system-worthy synergy",
-    // "imageUrl": "https://picsum.photos/id/158/600",
-    // "createdAt": "2021-01-27 21:55:56",
-    // "postedBy": {
-    //     "id": 3,
-    //     "name": "Valry Gregory",
-    //     "username": "vgregory2",
-    //     "email": "vgregory2@wsj.com",
-    //     "profileImageUrl": "https://robohash.org/vgregory2.png?bgset=bg1",
-    //     "coverImageUrl": "https://picsum.photos/id/692/2100/800"
-    // }
-    // },
-    
-    //     {"id": 796,
-    //             "message": "Profit-focused full-range migration",
-    //             "imageUrl": "https://picsum.photos/id/472/600",
-    //             "createdAt": "2021-01-27 19:12:57",
-    //             "postedBy": {
-    //                 "id": 42,
-    //                 "name": "Carolann Haeslier",
-    //                 "username": "chaeslier15",
-    //                 "email": "chaeslier15@webmd.com",
-    //                 "profileImageUrl": "https://robohash.org/chaeslier15.png?bgset=bg1",
-    //                 "coverImageUrl": "https://picsum.photos/id/486/2100/800"
-    //             }
-    //         }
-    
-    // ];
-    
+    const nextPrevLinks = <div>
+    {
+        previous
+            ? <Link className="page-arrow" to={previous}>⬅</Link>
+            : <></>
+    }
+    {
+        next
+            ? <Link className="page-arrow" to={next}>➡</Link>
+            : <></>
+    }
+    </div>
+
+    let listElements;
+    if (userList !== undefined) {
+        listElements = <>
+            {nextPrevLinks}
+            <UserList userList={userList} />
+            {nextPrevLinks}
+        </>
+    } else {
+        listElements = <p>Loading users...</p>
+    }
+
+
+    //<Link to = {`/users?page=${pageNum}`}>
+    // return <main>
+    //     <h1>MyFace - Users</h1>
+
+    //     <Link to = {`/users?page=${pageNum}`}>
+    //         <h2 onClick={function() {setPageNum((parseInt(pageNum)+1).toString()); console.log(pageNum)}}>
+    //             Next... </h2>
+    //     </Link>
+    //     {
+    //     userList !== undefined
+    //         ? <UserList userList={userList} />
+    //         : <p>Loading users...</p>
+    //     }
+    //     </main>
+
     return <main>
-        <h1>MyFace - Users</h1>
-        {
-        userList !== undefined
-            ? <UserList userList={userList} />
-            : <p>Loading users...</p>
-        }
-        </main>
+    <h1>MyFace - Users</h1>
+    {listElements}
+    </main>
     
 
 

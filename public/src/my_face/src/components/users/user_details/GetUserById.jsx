@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 
 export function GetUserById (props) {
 const id=props.id;
-console.log(id);
+//console.log(id);
 const [user, setUser] = useState();
 
 useEffect(

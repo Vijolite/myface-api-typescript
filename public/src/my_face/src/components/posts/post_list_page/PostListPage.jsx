@@ -1,18 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { PostList } from "../post_list/PostList.jsx";
+import { getPosts } from "../../../clients/myFaceClients";
+import { Link, useSearchParams } from "react-router-dom";
+import './PostListPage.scss';
 
 export function PostListPage() {
 
     const [postList, setPostList] = useState();
 
+    const [next, setNext] = useState();
+    const [previous, setPrevious] = useState();
+
+    const [searchParams] = useSearchParams();
+    const pageNumber = searchParams.get("page");
+    const pageSize = searchParams.get("pageSize");
+
+    // useEffect(
+    //     function() {
+    //         fetch(`http://localhost:3001/posts`)
+    //             .then(response => response.json())
+    //             .then(postListJson => setPostList(postListJson.results));
+    //     },
+    //     []
+    // );
+
     useEffect(
         function() {
-            fetch(`http://localhost:3001/posts`)
-                .then(response => response.json())
-                .then(postListJson => setPostList(postListJson.results));
+            getPosts(pageNumber, pageSize)
+                .then(postsPage => {
+                    setPostList(postsPage.results);
+                    setNext(postsPage.next);
+                    setPrevious(postsPage.previous);
+                });
         },
-        []
+        [pageNumber, pageSize]
     );
+
+    const nextPrevLinks = <div>
+    {
+        previous
+            ? <Link className="page-arrow" to={previous}>⬅</Link>
+            : <></>
+    }
+    {
+        next
+            ? <Link className="page-arrow" to={next}>➡</Link>
+            : <></>
+    }
+    </div>
 
     // const postList = [
     //     {"id": 130,
@@ -44,16 +79,34 @@ export function PostListPage() {
     //         }
     
     // ];
+
+    let listElements;
+    if (postList !== undefined) {
+        listElements = <>
+            {nextPrevLinks}
+            <PostList postList={postList} />
+            {nextPrevLinks}
+        </>
+    } else {
+        listElements = <p>Loading posts...</p>
+    }
     
+    // return <main>
+    //     <h1>MyFace - Posts</h1>
+    //     {
+    //     postList !== undefined
+    //         ? <PostList postList={postList} />
+    //         : <p>Loading posts...</p>
+    //     }
+    //     </main>
+
     return <main>
         <h1>MyFace - Posts</h1>
-        {
-        postList !== undefined
-            ? <PostList postList={postList} />
-            : <p>Loading posts...</p>
-        }
-        </main>
+        {listElements}
+    </main>
     
 
 
 }
+
+

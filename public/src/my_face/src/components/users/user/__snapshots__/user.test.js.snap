@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  className="user"
+>
+  <div
+    className="user_name"
+  >
+    <a
+      href="/users/1"
+      onClick={[Function]}
+    >
+      <h2>
+        User1
+      </h2>
+    </a>
+  </div>
+  <div
+    className="user_details"
+  >
+    <p>
+      Username: 
+      user name
+    </p>
+    <p>
+      Email:  
+      user@user
+    </p>
+  </div>
+  <div
+    className="user_img"
+  >
+    <a
+      href="/users/1"
+      onClick={[Function]}
+    >
+      <img
+        alt="User1"
+      />
+    </a>
+  </div>
+</div>
+`;

@@ -1,6 +1,6 @@
 //import React from 'react';
-//import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+//import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //import logo from './logo.svg';
 import './App.css';
@@ -10,6 +10,9 @@ import { PostListPage } from './components/posts/post_list_page/PostListPage.jsx
 import { User } from './components/users/user/user.jsx';
 import { UserListPage } from './components/users/user_list_page/UserListPage.jsx';
 import { UserDetails } from './components/users/user_details/UserDetails.jsx';
+import { Navbar } from './components/navbar/Navbar.jsx';
+import { CreatePostPage} from './components/posts/createPostPage/CreatePostPage';
+import { CreateUserPage} from './components/users/createUserPage/CreateUserPage';
 
 function App() {
   // return (
@@ -17,35 +20,23 @@ function App() {
   //     <UserDetails id="58"/>
   //   </div>
   // );
-  // return (
-  //   <Router>
-  //     <h1>This title is on every page!</h1>
-  //     <Routes>
-  //       <Route path="/posts">
-  //         <PostListPage/>
-  //       </Route>
-  //       <Route path="/users">
-  //         <UserListPage/>
-  //       </Route>
-  //       <Route path="">
-  //         <div>Sorry - that page doesn't exist, try these:</div>
-  //         <Link to="/posts"/>
-  //         <Link to="/users"/>
-  //       </Route>
-  //     </Routes>
-  //   </Router>
-  //   );
-
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="posts" element={<PostListPage />} />
-          <Route path="users" element={<UserListPage />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+    <Router>
+      
+      <header>
+        
+        <Navbar/>
+      </header>
+      <Routes>
+        <Route path="posts" element={<PostListPage />} />
+        <Route path="posts/create" element={<CreatePostPage />} />
+        <Route path="users" element={<UserListPage />} />
+        <Route path="users/:userId" element={<UserDetails />} />
+        <Route path="users/create" element={<CreateUserPage />} />
+      </Routes>
+    </Router>
+    );
+
 }
 
 export default App;

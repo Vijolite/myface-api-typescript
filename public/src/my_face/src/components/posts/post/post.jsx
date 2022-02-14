@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import './post.scss';
+import { likePost } from "../../../clients/myFaceClients";
 
 export function Post({ post }) {
 //export function Post() {
@@ -20,12 +22,6 @@ export function Post({ post }) {
     const [whoLikedNames, setWhoLiked]=useState (''); 
     const [whoDislikedNames, setWhoDisliked]=useState ('');  
 
-    // function getWhoLiked (arr) {
-    //     let s='';
-    //     if (whoLikedNames==='')
-    //         arr.forEach(person=>s=s+person.name+" ");
-    //     setWhoLiked(s);
-    // }
 
     function getWhoLiked (arr,names,st_f) {
         let s='';
@@ -34,13 +30,17 @@ export function Post({ post }) {
         st_f(s);
     }
 
-    return <div>
+    return <div className="post">
         <h2>{post.message}</h2>
         <img src={post.imageUrl} alt={post.message} />
-        <p>Posted by {post.postedBy.name} on {post.createdAt}</p>
-        <p onClick={function() {getWhoLiked(post.likedBy,whoLikedNames,setWhoLiked)}}> 
-        Liked by {post.likedBy.length}: {whoLikedNames}</p>
-        <p onClick={function() {getWhoLiked(post.dislikedBy,whoDislikedNames,setWhoDisliked)}}> 
-        Disliked by {post.dislikedBy.length}: {whoDislikedNames}</p>
+        <div>
+            <button className="ld_button" onClick={() => likePost(post.id)}>👍</button>
+            <p>Posted by {post.postedBy.name} on {post.createdAt}</p>
+            <p onClick={function() {getWhoLiked(post.likedBy,whoLikedNames,setWhoLiked)}}> 
+            Liked by {post.likedBy.length}: {whoLikedNames}</p>
+            <p onClick={function() {getWhoLiked(post.dislikedBy,whoDislikedNames,setWhoDisliked)}}> 
+            Disliked by {post.dislikedBy.length}: {whoDislikedNames}</p>
+        </div>
     </div>
 }
+

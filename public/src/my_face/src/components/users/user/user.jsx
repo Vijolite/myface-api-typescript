@@ -1,4 +1,6 @@
 import React from "react";
+import {Link} from 'react-router-dom';
+import './user.scss';
 
 export function User({ user }) {
 //export function User() {
@@ -12,11 +14,22 @@ export function User({ user }) {
     //     "profileImageUrl": "https://robohash.org/aassinder1l.png?bgset=bg1",
     // }
 
-    return <div>
-        <h2>{user.name}</h2>
-        <img src={user.coverImageUrl} alt={user.name} />
-        <img src={user.profileImageUrl} alt={user.name} />
-        <p>Username: {user.username}</p>
-        <p>Email:  {user.email}</p>
+    //<img src={user.coverImageUrl} alt={user.name} />
+    return <div className="user">
+        <div className="user_name">
+            <Link to = {`/users/${user.id}`}>
+                <h2>{user.name}</h2>
+            </Link>
+        </div>
+        <div className="user_details">
+            <p>Username: {user.username}</p>
+            <p>Email:  {user.email}</p>
+        </div>
+        <div className="user_img">
+            <Link  to = {`/users/${user.id}`}>
+                <img src={user.profileImageUrl} alt={user.name} />
+            </Link>
+        </div>
+
     </div>
 }

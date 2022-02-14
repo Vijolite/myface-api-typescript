@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  className="post"
+>
+  <h2>
+    Post message
+  </h2>
+  <img
+    alt="Post message"
+    src="Image url"
+  />
+  <div>
+    <p>
+      Posted by 
+      User name
+       on 
+      2022/04/05 11:00
+    </p>
+    <p
+      onClick={[Function]}
+    >
+      Liked by 
+      10
+      : 
+      
+    </p>
+    <p
+      onClick={[Function]}
+    >
+      Disliked by 
+      5
+      : 
+      
+    </p>
+  </div>
+</div>
+`;

@@ -1,18 +1,20 @@
 import React from "react";
 import {GetUserById} from "./GetUserById.jsx";
+import './UserPostsLikedDisliked.scss';
 
 
 
 export function UserPostsLikedDisliked(props) {
 
-
-    return <ol>
+    return <ol className="post_list">
         {props.posts.map((p, index) => (
-            <li key={index}>
+            <li className="post_item post" key={index}>
                 <h2>{p.message}</h2>
                 <img src={p.imageUrl} alt={p.message} />
-                <p>Created: {p.createdAt}</p>
-                <p>By: <GetUserById id={p.userId}/></p>
+                <div>
+                    <p>Created: {p.createdAt}</p>
+                    <p>By: <GetUserById id={p.userId}/></p>
+                </div>
             </li>
         ))}
     </ol>

@@ -1,5 +1,6 @@
 import React from "react";
 import { User } from "../user/user.jsx";
+import './UserList.scss';
 
 
 
